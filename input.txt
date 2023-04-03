@@ -1,0 +1,50 @@
+#cos_dlugiego, .moja_Klasa {
+color: red;
+font-size: 17px;
+font-family: "arial";
+padding: 17px 20px 17px 20px;
+}
+h1 {color: 1a;}
+h2 {color: green; font-size:10px}
+h3 {color: blue;}
+h4 {color: orange; padding: 10px 20px 10px 20px}
+h5 {color: blue;}
+h6 {color: blue;}
+h7 {color: blue;}
+h8, h1 {color: 2b;}
+h9 {color: blue;}
+h10 {color: blue;}
+h11 {color: blue;}
+h12 {color: blue;}
+h13, h1 {color: 3c;}
+h14 {color: blue;}
+h15 {color: blue;}
+h16, h1 {color: 4d}
+h17 {color: blue;}
+h18 {color: blue;}
+h19 {color: blue;}
+{color: orange;}
+h1 {color: 5e}
+
+h1 {
+color: red;
+font-size: 17px;
+font-family: "arial";
+padding: 17px 20px 17px 20px;
+color: blue;
+}
+
+
+TODO
++> dodac zeby atrybuty sie nie powtarzaly
++> posprawdzać czy wszystko zgadza się z instrukcjami implementacyjnymi
+
++> tabulatory
++> zmienic string na bardzije efficient (zwiekszyc buf size, usunac 'dokrajanie' stringa do odpowiedniej wartosci, w string+cons char nie alkowoać co chwilę pamięci)
++> usunąć usuwanie spacji w selektorze (może być selektor "h1 h2 h3")
+
+?> posprawdzać wszystkie rreferencje, dodac nowe
+
+?> i,S,? – wypisz liczbę selektorów dla sekcji nr i (numery zaczynają się od 1), jeśli nie ma takiego bloku 
+pomiń;
+?> i,A,? - wypisz liczbę atrybutów dla sekcji nr i, jeśli nie ma takiego bloku lub sekcji pomiń -> działa za duże id

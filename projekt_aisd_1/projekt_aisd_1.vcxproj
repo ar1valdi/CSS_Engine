@@ -80,6 +80,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,6 +109,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,8 +131,10 @@
   <ItemGroup>
     <ClCompile Include="List.cpp" />
     <ClCompile Include="List2W.cpp" />
+    <ClCompile Include="ListAtr.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Node2W.cpp" />
+    <ClCompile Include="NodeAtr.cpp" />
     <ClCompile Include="projekt_aisd_1.cpp" />
     <ClCompile Include="String.cpp" />
   </ItemGroup>
@@ -138,8 +142,10 @@
     <ClInclude Include="Blok.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="List2W.h" />
+    <ClInclude Include="ListAtr.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Node2W.h" />
+    <ClInclude Include="NodeAtr.h" />
     <ClInclude Include="operatory.h" />
     <ClInclude Include="String.h" />
   </ItemGroup>
