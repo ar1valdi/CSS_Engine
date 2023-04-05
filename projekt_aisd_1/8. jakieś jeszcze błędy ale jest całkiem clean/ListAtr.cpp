@@ -1,19 +1,18 @@
 #pragma once
-#include "Move.h"
 #include "ListAtr.h"
 #include <iostream>
 
-ListAtr::ListAtr() {	
+ListAtr::ListAtr() {	//
 	FirstNode = LastNode = nullptr;
 	size = 0;
 }
-ListAtr::ListAtr(const ListAtr& other) {	
+ListAtr::ListAtr(const ListAtr& other) {	//
 	*this = other;
 }
-ListAtr::ListAtr(ListAtr&& other) {	
-	*this = Move<ListAtr>(other);
+ListAtr::ListAtr(ListAtr&& other) {	//
+	*this = std::move(other);
 }
-int ListAtr::getSize() {	
+int ListAtr::getSize() {	//
 	return this->size;
 }
 bool ListAtr::isEmpty() {
@@ -21,7 +20,7 @@ bool ListAtr::isEmpty() {
 		return 1;
 	return 0;
 }
-void ListAtr::add(const String& atr, const String& val) {	
+void ListAtr::add(const String& atr, const String& val) {	//
 	if (this->FirstNode == nullptr) {
 		FirstNode = LastNode = new NodeAtr;
 		FirstNode->setValV(val);
@@ -42,7 +41,7 @@ void ListAtr::clear() {
 	LastNode = nullptr;
 	size = 0;
 }
-bool ListAtr::del(const int& id) {	
+bool ListAtr::del(const int& id) {	//
 	if (this == nullptr || id >= this->size || id < 0)
 		return 0;
 
@@ -62,12 +61,12 @@ bool ListAtr::del(const int& id) {
 	delete tmp->getNext();
 	tmp->setNext(toAttach);
 
-	if (toAttach == nullptr)
+	if (toAttach == nullptr)		//if deleted node was the last one
 		LastNode = tmp;
 	this->size--;
 	return 1;
 }
-int ListAtr::find(const String& val) {
+int ListAtr::find(const String& val) {	//
 	if (FirstNode == nullptr)
 		return -1;
 
@@ -99,21 +98,21 @@ NodeAtr& ListAtr::find(const String& val, bool wantNode) {
 
 	return *tmp;
 }
-NodeAtr& ListAtr::operator[](size_t index) {
+NodeAtr& ListAtr::operator[](size_t index) {		//
 	NodeAtr* tmp = this->FirstNode;
 	for (std::size_t i = 0; i < index && tmp != nullptr; i++) {
 		tmp = tmp->getNext();
 	}
 	return *tmp;
 }
-const NodeAtr& ListAtr::operator[](size_t index) const {
+const NodeAtr& ListAtr::operator[](size_t index) const {		//
 	NodeAtr* tmp = this->FirstNode;
 	for (std::size_t i = 0; i < index && tmp != nullptr; i++) {
 		tmp = tmp->getNext();
 	}
 	return *tmp;
 }
-ListAtr& ListAtr::operator=(const ListAtr& l) {
+ListAtr& ListAtr::operator=(const ListAtr& l) {	// nie uzywam ??
 	this->size = l.size;
 
 	if (this->size == 0) {
@@ -139,7 +138,7 @@ ListAtr& ListAtr::operator=(const ListAtr& l) {
 	LastNode = tmp;
 	return *this;
 }
-ListAtr& ListAtr::operator=(ListAtr&& l) {	
+ListAtr& ListAtr::operator=(ListAtr&& l) {	//
 	this->size = l.size;
 	this->FirstNode = l.FirstNode;
 	this->LastNode = l.LastNode;
@@ -147,14 +146,14 @@ ListAtr& ListAtr::operator=(ListAtr&& l) {
 	l.LastNode = nullptr;
 	return *this;
 }
-void ListAtr::print() {	
+void ListAtr::print() {	//
 	cout << "Size = " << size << '\n';
 	for (int i = 0; i < size; i++) {
 		cout << "Atr: " << (*this)[i].getValA().getVal() << ' ';
 		cout << "Value: " << (*this)[i].getValV().getVal() << '\n';
 	}
 }
-ListAtr::~ListAtr() {
+ListAtr::~ListAtr() {	//
 	if (this != nullptr && FirstNode != nullptr)
 		delete FirstNode;
 }

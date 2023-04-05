@@ -5,8 +5,8 @@ class String {
 private:
 	char* val;
 	int size, bufs;
-	static bool EOFdetected;
 	void cleanVal();
+	static bool EOFdetected;
 	friend String operator+(const char c, const String& s);
 	friend class ListAtr;
 	friend class List;

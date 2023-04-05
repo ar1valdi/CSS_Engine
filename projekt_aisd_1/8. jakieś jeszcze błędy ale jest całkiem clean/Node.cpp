@@ -1,5 +1,4 @@
 #pragma once
-#include "Move.h"
 #include "Node.h"
 #include <iostream>
 
@@ -11,8 +10,8 @@ Node::Node(const Node& right) {
 	next = right.next;
 }
 Node::Node(Node&& right) {
-	val = Move<String>(right.val);
-	next = right.next;
+	val = move(right.val);
+	next = move(right.next);
 }
 const String Node::getVal() const{
 	return this->val;

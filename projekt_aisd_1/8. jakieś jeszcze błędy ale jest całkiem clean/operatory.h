@@ -4,11 +4,14 @@
 #include "NodeAtr.h"
 
 ostream& operator<<(ostream& out, Blok& b) {
-	out << "selektory:\n";
+	cout << "selektory:\n";
 	for (int i = 0; i < b.selektory.getSize(); i++)
 		out << b.selektory[i] << ", ";
-	out << "\natrybuty:\n";
-	out << endl;
+	cout << "\natrybuty:\n";
+	for (int i = 0; i < b.atrybuty.getSize(); i++) {
+	//	out << b.atrybuty[i].print();
+	}
+	cout << endl;
 	return out;
 }
 ostream& operator<<(std::ostream& out, const String& s) {

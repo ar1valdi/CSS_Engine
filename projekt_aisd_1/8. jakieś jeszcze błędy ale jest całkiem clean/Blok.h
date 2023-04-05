@@ -2,7 +2,6 @@
 #include "List.h"
 #include "ListAtr.h"
 #include <iostream>
-#include "Move.h"
 using namespace std;
 
 struct Blok {
@@ -14,14 +13,14 @@ struct Blok {
 	Blok() {}
 
 	Blok(List sel, ListAtr atr) {
-		selektory = Move<List>(sel);
-		atrybuty = Move<ListAtr>(atr);
+		selektory = move(sel);
+		atrybuty = move(atr);
 	}
 	Blok(const Blok& b) {
 		*this = b;
 	}
 	Blok(Blok&& b) {
-		*this = Move<Blok>(b);
+		*this = move(b);
 	}
 
 	void clear() {
@@ -35,8 +34,8 @@ struct Blok {
 		return *this;
 	}
 	Blok& operator=(Blok&& b) {
-		selektory = Move<List>(b.selektory);
-		atrybuty = Move<ListAtr>(b.atrybuty);
+		selektory = move(b.selektory);
+		atrybuty = move(b.atrybuty);
 		return *this;
 	}
 	~Blok() {

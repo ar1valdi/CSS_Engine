@@ -13,17 +13,6 @@ using namespace std;
 #define start 1
 #define end 0
 
-//---------UTILITES---------//
-
-// checks if char character is valid
-// checks ascii codes, return 1 for
-// chars like letters, numbers, symbols
-bool isCorrectChar(const char& c) {
-	if (c >= 33 && c <= 126)
-		return 1;
-	return 0;
-}
-
 void deleteFirstLastSpaces(String& s) {
 	int toErase = 0;
 
@@ -43,7 +32,62 @@ void deleteFirstLastSpaces(String& s) {
 	}
 	s.erase(id+1, toErase);
 }
+void readingSelectors(char& in, char& mode, Blok& nowyBlok, String& thing) {
+	if (in == '{') {					// end of selectors
+		mode = attributes;
+		deleteFirstLastSpaces(thing);
+		nowyBlok.selektory.add(thing);
+		thing.clear();
+		return;
+	}
+	if (in == ',')						// save selector and clear string for next one
+	{
+		deleteFirstLastSpaces(thing);
+		nowyBlok.selektory.add(thing);
+		thing.clear();
+		return;
+	}
+	thing += in;
+}
+void readingAttr(char& in, char& mode, Blok& nowyBlok, String& thing, List2W& bloki, String& atr) {
+	if (in == ':') {					// switching to values condiction
+		mode = values;
 
+		deleteFirstLastSpaces(thing);
+		int id = nowyBlok.atrybuty.find(thing);	// delete prev occurance of given attr
+		if (id != -1)
+			nowyBlok.atrybuty.del(id);
+		atr = thing;
+		thing.clear();
+		return;
+	}
+	if (in == '}') {
+		mode = selectors;
+		if(nowyBlok.atrybuty.getSize() != 0)
+			bloki.add(nowyBlok);
+		nowyBlok.clear();
+		return;
+	}
+	thing += in;
+}
+void readingVals(char& in, char& mode, Blok& nowyBlok, String& thing, List2W& bloki, String& atr) {
+	if (in == ';' || in == '}') {		// user has finished entering value
+		deleteFirstLastSpaces(thing);
+		nowyBlok.atrybuty.add(atr, thing);
+		if (in == '}') {
+			mode = selectors;
+			if (nowyBlok.atrybuty.getSize() != 0)
+				bloki.add(nowyBlok);
+			nowyBlok.clear();
+		}
+		else
+			mode = attributes;
+		thing.clear();
+		atr.clear();
+		return;
+	}
+	thing += in;
+}
 void commandStartCheck(String& buf, char& in, char& mode, bool q=start) {
 	buf += in;
 	if (q == start) {
@@ -76,7 +120,6 @@ void commandStartCheck(String& buf, char& in, char& mode, bool q=start) {
 	}
 	
 }
-
 bool clBuf(bool& bufCleared) {
 	char c = getchar();
 	while (c != '\n') {
@@ -87,7 +130,6 @@ bool clBuf(bool& bufCleared) {
 	bufCleared = 1;
 	return 1;
 }
-
 void readWholeNumber(int& id, char& in) {
 	in = getchar();		// next char or ','
 	while (in != ',') {			// load whole numeber, not just 1-9
@@ -96,12 +138,7 @@ void readWholeNumber(int& id, char& in) {
 	}
 	id -= 1;
 }
-
-//---------COMMANDS---------//
-
 void deleteOneAttr(const int& id, List2W& bloki, String& secPartIn) {
-	if (id == 19)
-		int x = 10;
 	Blok* blokID = &bloki[id];
 	int idToD = blokID->atrybuty.find(secPartIn);
 
@@ -111,14 +148,12 @@ void deleteOneAttr(const int& id, List2W& bloki, String& secPartIn) {
 		cout << id + 1 << ",D," << secPartIn << " == deleted\n";
 	}
 }
-
 bool showNumberOfSelectors(const int& id, List2W& bloki, bool& bufCleared) {
 	cout << id + 1 << ",S,? == " << bloki[id].selektory.getSize() << '\n';
 	if (!clBuf(bufCleared))
 		return 0;
 	return 1;
 }
-
 bool printSectionsNumber(char& in, List2W& bloki, char& mode, String& secPartIn, bool& bufCleared) {
 	in = getchar();
 	if (in != '\n' && in != EOF) {			//if command is something like ???? or ?h1?h2?
@@ -139,12 +174,10 @@ bool printSectionsNumber(char& in, List2W& bloki, char& mode, String& secPartIn,
 
 	return 1;
 }
-
 void deleteSection(List2W& bloki, int id) {
 	if (bloki.del(id))
 		cout << id + 1 << ",D,* == deleted\n";
 }
-
 void showSelectorWithID(char& in, List2W& bloki, int id) {
 	int j = 0;
 	while (in != '\n') {
@@ -157,14 +190,12 @@ void showSelectorWithID(char& in, List2W& bloki, int id) {
 		cout << id + 1 << ",S," << j + 1 << " == " << blokID->selektory[j] << '\n';
 	}
 }
-
 void showValueOfAttributeWithID(const int& id, List2W& bloki, String& secPartIn) {
 	NodeAtr* returned = &bloki[id].atrybuty.find(secPartIn, 1);
 	if (!(returned->isEmpty())) {
 		cout << id + 1 << ",A," << secPartIn << " == " << returned->getValV() << '\n';
 	}
 }
-
 bool numOfSelectorInstancesInList(int& num, List2W& bloki, const String& z, bool& bufCleared) {
 	num = bloki.instancesOfSel(z);
 
@@ -175,7 +206,6 @@ bool numOfSelectorInstancesInList(int& num, List2W& bloki, const String& z, bool
 		return 0;
 	return 1;
 }
-
 bool numOfAttributeInstancesInList(int& num, List2W& bloki, const String& z, bool& bufCleared) {
 	num = bloki.instancesOfAtr(z);
 
@@ -186,7 +216,6 @@ bool numOfAttributeInstancesInList(int& num, List2W& bloki, const String& z, boo
 		return 0;
 	return 1;
 }
-
 void lastValueOfAttribute(String& secPartIn, bool& bufCleared, List2W& bloki, const String& z) {
 	secPartIn.getline();
 	bufCleared = 1;
@@ -195,67 +224,6 @@ void lastValueOfAttribute(String& secPartIn, bool& bufCleared, List2W& bloki, co
 	if (returned.getSize() != 0) {
 		cout << z << ",E," << secPartIn << " == " << returned << '\n';
 	}
-}
-
-//-------MAIN OPTIONS-------//
-
-void readingSelectors(char& in, char& mode, Blok& nowyBlok, String& thing) {
-	if (in == '{') {					// end of selectors
-		mode = attributes;
-		deleteFirstLastSpaces(thing);
-		nowyBlok.selektory.add(thing);
-		thing.clear();
-		return;
-	}
-	if (in == ',')						// save selector and clear string for next one
-	{
-		deleteFirstLastSpaces(thing);
-		nowyBlok.selektory.add(thing);
-		thing.clear();
-		return;
-	}
-	thing += in;
-}
-
-void readingAttr(char& in, char& mode, Blok& nowyBlok, String& thing, List2W& bloki, String& atr) {
-	if (in == ':') {					// switching to values condiction
-		mode = values;
-
-		deleteFirstLastSpaces(thing);
-		int id = nowyBlok.atrybuty.find(thing);	// delete prev occurance of given attr
-		if (id != -1)
-			nowyBlok.atrybuty.del(id);
-		atr = thing;
-		thing.clear();
-		return;
-	}
-	if (in == '}') {
-		mode = selectors;
-		if (nowyBlok.atrybuty.getSize() != 0)
-			bloki.add(nowyBlok);
-		nowyBlok.clear();
-		return;
-	}
-	thing += in;
-}
-
-void readingVals(char& in, char& mode, Blok& nowyBlok, String& thing, List2W& bloki, String& atr) {
-	if (in == ';' || in == '}') {		// user has finished entering value
-		deleteFirstLastSpaces(thing);
-		nowyBlok.atrybuty.add(atr, thing);
-		if (in == '}') {
-			mode = selectors;
-			if (nowyBlok.atrybuty.getSize() != 0)
-				bloki.add(nowyBlok);
-			nowyBlok.clear();
-		}
-		else
-			mode = attributes;
-		thing.clear();
-		atr.clear();
-		return;
-	}
-	thing += in;
 }
 
 bool commandHandle(char& in, List2W& bloki, char& mode, String& secPartIn) {
@@ -334,7 +302,7 @@ bool commandHandle(char& in, List2W& bloki, char& mode, String& secPartIn) {
 			break;
 		}
 	}
-	else if (isCorrectChar(in)) {
+	else if (in != '0' && !isspace(in)) {
 
 		// get rest of the word
 		String z;
@@ -383,7 +351,6 @@ bool commandHandle(char& in, List2W& bloki, char& mode, String& secPartIn) {
 
 	return 1;
 }
-
 int main()
 {
 	List2W bloki;

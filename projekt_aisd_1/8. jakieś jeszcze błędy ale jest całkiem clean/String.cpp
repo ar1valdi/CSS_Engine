@@ -1,11 +1,10 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "Move.h"
 #include "String.h"
 #include <iostream>
 using namespace std;
-#define stringBuf 8
+#define stringBuf 32
 
 bool String::EOFdetected = 0;
 String::String() {
@@ -17,11 +16,11 @@ char* String::getVal() const {
 	return this->val;
 }
 void addMemory(char*& t, int &size, int newSize) {
-	char* buf = Move<char*>(t);
+	char* buf = move(t);
 	t = new char[newSize];
 
 	//przepisuje tablice
-	for (int i = 0; i < size && i < newSize; i++)
+	for (int i = 0; i < size - 1 && i < newSize; i++)
 		t[i] = buf[i];
 	t[newSize - 1] = '\0';
 
@@ -95,7 +94,7 @@ void String::erase(int start, int n) {
 			bufs--;
 		bufs++;
 		if (oldBufs != bufs) {
-			char* buf = Move<char*>(val);
+			char* buf = move(val);
 
 			val = new char[bufs * stringBuf];
 			strcpy(val, buf);
@@ -116,7 +115,7 @@ String::String(String&& other) {
 	this->size = 0;
 	this->val = nullptr;
 	this->bufs = 0;
-	*this = Move<String>(other);
+	*this = move(other);
 }
 String::String(const char*&& other) {
 	this->size = 0;

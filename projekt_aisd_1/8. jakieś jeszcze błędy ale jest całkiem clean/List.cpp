@@ -1,5 +1,4 @@
 #pragma once
-#include "Move.h"
 #include "List.h"
 #include <iostream>
 
@@ -11,7 +10,7 @@ List::List(const List& other) {
 	*this = other;
 }
 List::List(List&& other) {
-	*this = Move<List>(other);
+	*this = std::move(other);
 }
 int List::getSize() {
 	return this->size;
@@ -79,19 +78,15 @@ int List::find(const String& val) {
 	return id;
 }
 Node& List::find(const String& val, bool wantNode) {
-	if (FirstNode == nullptr) {
-		Node emptyNode;
-		return emptyNode;
-	}
+	if (FirstNode == nullptr)
+		throw runtime_error("not found");
 
 	Node* tmp = FirstNode;
 	while (tmp->getNext() != nullptr && tmp->val != val) 
 		tmp = tmp->getNext();
 	
-	if (tmp->getNext() == nullptr && tmp->val != val) {
-		Node emptyNode;
-		return emptyNode;
-	}
+	if (tmp->getNext() == nullptr && tmp->val != val)
+		throw runtime_error("not found");
 
 	return *tmp;
 }

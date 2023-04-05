@@ -1,5 +1,4 @@
 #pragma once
-#include "Move.h"
 #include "NodeAtr.h"
 #include <iostream>
 
@@ -12,9 +11,9 @@ NodeAtr::NodeAtr(const NodeAtr& right) {
 	next = right.next;
 }
 NodeAtr::NodeAtr(NodeAtr&& right) {
-	valV = Move<String>(right.valV);
-	valA = Move<String>(right.valA);
-	next = right.next;
+	valV = move(right.valV);
+	valA = move(right.valA);
+	next = move(right.next);
 }
 const String NodeAtr::getValV() const {
 	return this->valV;

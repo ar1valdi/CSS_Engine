@@ -7,6 +7,7 @@ class NodeAtr
 protected:
 	NodeAtr* next;
 	friend ostream& operator<<(ostream& out, const NodeAtr& n);
+	//friend class ListAtr;
 public:
 	String valA;
 	String valV;
